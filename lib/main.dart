@@ -112,7 +112,7 @@ class _PassDataDemoState extends State<PassDataDemo> {
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.only(left: 20, right: 20, top: 16, bottom: 16),
-                  labelText: 'Enter Height m',
+                  labelText: 'Enter Height cm',
                   border: InputBorder.none,
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
@@ -139,10 +139,11 @@ class _PassDataDemoState extends State<PassDataDemo> {
               onPressed: () {
                 double weight = double.tryParse(myController.text) ?? 0;
                 double height = double.tryParse(myControllertwo.text) ?? 0;
+                double Newheight = height / 100;
 
                 double bmi = 0;
-                if (height > 0) {
-                  bmi = weight / (height * height);
+                if (Newheight > 0) {
+                  bmi = weight / (Newheight * Newheight);
                 }
 
                 Navigator.push(
@@ -150,7 +151,7 @@ class _PassDataDemoState extends State<PassDataDemo> {
                   MaterialPageRoute(
                     builder: (context) => DetailScreen(
                       weight: weight.toString(),
-                      height: height.toString(),
+                      Newheight: Newheight.toString(),
                       bmi: bmi.toStringAsFixed(2),
                     ),
                   ),
@@ -167,13 +168,13 @@ class _PassDataDemoState extends State<PassDataDemo> {
 
 class DetailScreen extends StatefulWidget {
   final String weight;
-  final String height;
+  final String Newheight;
   final String bmi;
 
   const DetailScreen({
     Key? key,
     required this.weight,
-    required this.height,
+    required this.Newheight,
     required this.bmi,
   }) : super(key: key);
 
@@ -187,25 +188,13 @@ class _DetailScreenState extends State<DetailScreen> {
     double bmi = double.tryParse(bmiString) ?? 0;
 
     if (bmi < 18.5) {
-      return {
-        'color': Colors.blue,
-        'message': 'Underweight'
-      };
+      return {'color': Colors.blue, 'message': 'Underweight'};
     } else if (bmi < 24.9) {
-      return {
-        'color': Colors.green,
-        'message': 'Normal Weight'
-      };
+      return {'color': Colors.green, 'message': 'Normal Weight'};
     } else if (bmi < 29.9) {
-      return {
-        'color': Colors.orange,
-        'message': 'Overweight'
-      };
+      return {'color': Colors.orange, 'message': 'Overweight'};
     } else {
-      return {
-        'color': Colors.red,
-        'message': 'Obesity'
-      };
+      return {'color': Colors.red, 'message': 'Obesity'};
     }
   }
 
@@ -224,8 +213,9 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           children: [
             SizedBox(height: 150),
-            Text("Weight: ${widget.weight} kg", style: TextStyle(fontSize: 23)),
-            Text("Height: ${widget.height} m", style: TextStyle(fontSize: 23)),
+            //Text("Weight: ${widget.weight} kg", style: TextStyle(fontSize: 23)),
+            //Text("Height: ${widget.Newheight} cm",
+            //style: TextStyle(fontSize: 23)),
             Text(
               "BMI: ${widget.bmi}",
               style: TextStyle(
