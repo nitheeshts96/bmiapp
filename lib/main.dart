@@ -182,22 +182,38 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  Color getBmiColor(String bmiString) {
+  // Modify the function to return both the color and the message
+  Map<String, dynamic> getBmiCategory(String bmiString) {
     double bmi = double.tryParse(bmiString) ?? 0;
 
     if (bmi < 18.5) {
-      return Colors.blue;
+      return {
+        'color': Colors.blue,
+        'message': 'Underweight'
+      };
     } else if (bmi < 24.9) {
-      return Colors.green;
+      return {
+        'color': Colors.green,
+        'message': 'Normal Weight'
+      };
     } else if (bmi < 29.9) {
-      return Colors.orange;
+      return {
+        'color': Colors.orange,
+        'message': 'Overweight'
+      };
     } else {
-      return Colors.red;
+      return {
+        'color': Colors.red,
+        'message': 'Obesity'
+      };
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // Get the BMI category and color from the function
+    var bmiCategory = getBmiCategory(widget.bmi);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -215,9 +231,19 @@ class _DetailScreenState extends State<DetailScreen> {
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
-                color: getBmiColor(widget.bmi), // <-- Now works!
+                color: bmiCategory['color'], // Use color from bmiCategory
               ),
             ),
+            SizedBox(height: 20),
+            Text(
+              bmiCategory['message'], // Display BMI category message
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+                color: bmiCategory['color'], // Same color for the message
+              ),
+            ),
+            SizedBox(height: 30),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               child: Text("Go Back"),
